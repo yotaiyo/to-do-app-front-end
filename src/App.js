@@ -5,11 +5,14 @@ import { TodoInput } from './components/TodoInput'
 import { TodoList } from './components/TodoList'
 import { Footer } from './components/Footer'
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  text-align: center;
+  font-family: 'Vollkorn', serif;
+`
 
 const Title = styled.div`
   font-size: 30px;
-  box-shadow: 0px 5px 10px -3px rgba(0,0,0,0.5);
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.5);
   padding: 10px;
 `
 
@@ -50,7 +53,13 @@ class App extends Component {
     const onClickActive = () => {
       this.setState({ showOnlyCompleted: false, showOnlyActive: true })
     }
-    console.log(this.state.showOnlyCompleted, this.state.showOnlyActive)
+
+    const deleteCompleted = () => {
+      let todos = this.state.todos
+      todos = todos.filter(todo => !todo.completed)
+      
+      this.setState({ todos })
+    }
 
     return (
       <Wrapper className="App">
@@ -68,6 +77,9 @@ class App extends Component {
           onClickAll={onClickAll} 
           onClickCompleted={onClickCompleted} 
           onClickActive={onClickActive}
+          showOnlyCompleted={this.state.showOnlyCompleted} 
+          showOnlyActive={this.state.showOnlyActive} 
+          onClickDeleteButton={deleteCompleted}
         />
       </Wrapper>
     )

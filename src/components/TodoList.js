@@ -7,6 +7,7 @@ const Wrapper = styled.div`
     margin: 0 auto;
     margin-top: 10px;
     width: 600px;
+    font-size: 20px;
 `
 const TodoCard = styled.div`
     border-left: solid 1px;
@@ -33,8 +34,12 @@ const ToggleButton = styled.img`
 `
 
 export const TodoList = ({ todos, onClick, showOnlyCompleted, showOnlyActive }) => {
+    let listNum = 0
+    if (todos.length === 0) {
+        return <Wrapper>Todoはありません。</Wrapper>
+    }
     return (
-        <Wrapper style={{ borderTop: todos.length !== 0 ? 'solid 1px' : undefined }}>  
+        <Wrapper>  
             {todos.map((todo) => {
                 const id = todo.id
                 const text = todo.text
@@ -42,10 +47,11 @@ export const TodoList = ({ todos, onClick, showOnlyCompleted, showOnlyActive }) 
                 const showCompleted = showOnlyCompleted ? completed : true
                 const showActive = showOnlyActive ? !completed : true 
                 const show = showCompleted && showActive
-                
+                listNum += show ? 1 : 0 
+
                 return (
                     show ? 
-                        <TodoCard key={id}>
+                        <TodoCard key={id} style={{ borderTop: listNum === 1 ? 'solid 1px' : undefined }}>
                             <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{text}</TodoBody>
                             <ToggleButton 
                                 src={completed ? checkBlackImage : checkGrayImage} 
