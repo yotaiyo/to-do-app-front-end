@@ -29,7 +29,6 @@ class App extends Component {
     const completed = false
     const setDeadline = this.state.setDeadline
     const deadline = setDeadline ? date : undefined
-
     todos.push({ id, text, completed, deadline })
 
     this.setState({ todos })
@@ -37,7 +36,7 @@ class App extends Component {
   }
 
   onClickCheckButton = ( id ) => {
-    const todos = this.state.todos  
+    const todos = this.state.todos
     const completed = todos[id].completed
     todos[id] = Object.assign(todos[id], {completed: !completed})
     
@@ -59,6 +58,10 @@ class App extends Component {
   deleteCompleted = () => {
     let todos = this.state.todos
     todos = todos.filter(todo => !todo.completed)
+
+    todos.forEach((todo, index) => {      
+      todos[index].id = index
+    })
     
     this.setState({ todos })
   }
@@ -68,7 +71,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <Wrapper className="App">
         <Title>yotaiyo`s To-Do App</Title>
