@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import './App.css'
 import { TodoInput } from './components/TodoInput'
+import { TodoList } from './components/TodoList'
 
 const Wrapper = styled.div``
 
@@ -12,14 +13,32 @@ const Title = styled.div`
 `
 
 class App extends Component {
-  render(){
+  constructor(props){
+    super(props);
 
-  return (
-    <Wrapper className="App">
-      <Title>yotaiyo`s To-Do App</Title>
-      <TodoInput />
-    </Wrapper>
-  )}
+    this.state = { todos: [] } 
+  }
+
+  render(){
+    const onClickAddButton = ( text ) => {
+      const todos = this.state.todos
+      const id = todos.length
+
+      todos.push({ id, text })
+
+      this.setState({ todos })
+    }
+
+    return (
+      <Wrapper className="App">
+        <Title>yotaiyo`s To-Do App</Title>
+        <TodoInput 
+          onClick={onClickAddButton}
+        />
+        <TodoList todos={this.state.todos} />
+      </Wrapper>
+    )
+  }
 }
 
 export default App

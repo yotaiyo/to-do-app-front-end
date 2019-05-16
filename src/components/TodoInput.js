@@ -27,9 +27,8 @@ const AddButton = styled.div`
     padding: 3px;
 `
 
-export const TodoInput = () => {
+export const TodoInput = ({ onClick }) => {
     let input
-
     return (
         <Wrapper>
             <TodoInputWrapper>
@@ -38,6 +37,8 @@ export const TodoInput = () => {
                 />
 
                 <AddButton onClick={() => {
+                    const text = input.value
+                    onClick(text)
                     input.value = ''
                 }}>
                     Add
