@@ -32,22 +32,28 @@ const ToggleButton = styled.img`
     border-left: solid 1px #EEEEEE;
 `
 
-export const TodoList = ({ todos, onClick }) => {
+export const TodoList = ({ todos, onClick, showOnlyCompleted, showOnlyActive }) => {
     return (
         <Wrapper style={{ borderTop: todos.length !== 0 ? 'solid 1px' : undefined }}>  
             {todos.map((todo) => {
                 const id = todo.id
                 const text = todo.text
                 const completed = todo.completed
+                const showCompleted = showOnlyCompleted ? completed : true
+                const showActive = showOnlyActive ? !completed : true 
+                const show = showCompleted && showActive
+                
                 return (
-                    <TodoCard key={id}>
-                        <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{text}</TodoBody>
-                        <ToggleButton 
-                            src={completed ? checkBlackImage : checkGrayImage} 
-                            alt='check'
-                            onClick={() => onClick(id)}
-                        />
-                    </TodoCard>
+                    show ? 
+                        <TodoCard key={id}>
+                            <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{text}</TodoBody>
+                            <ToggleButton 
+                                src={completed ? checkBlackImage : checkGrayImage} 
+                                alt='check'
+                                onClick={() => onClick(id)}
+                            />
+                        </TodoCard>
+                    : <div key={id}></div>
             )})} 
         </Wrapper>
     )

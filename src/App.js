@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import './App.css'
 import { TodoInput } from './components/TodoInput'
 import { TodoList } from './components/TodoList'
+import { Footer } from './components/Footer'
 
 const Wrapper = styled.div``
 
@@ -16,7 +17,7 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = { todos: [] } 
+    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false } 
   }
 
   render(){
@@ -37,7 +38,19 @@ class App extends Component {
       
       this.setState({ todos })
     }
-    console.log(this.state)
+    
+    const onClickAll = () => {
+      this.setState({ showOnlyCompleted: false, showOnlyActive: false })
+    }
+
+    const onClickCompleted = () => {
+      this.setState({ showOnlyCompleted: true, showOnlyActive: false })
+    }
+
+    const onClickActive = () => {
+      this.setState({ showOnlyCompleted: false, showOnlyActive: true })
+    }
+    console.log(this.state.showOnlyCompleted, this.state.showOnlyActive)
 
     return (
       <Wrapper className="App">
@@ -45,7 +58,17 @@ class App extends Component {
         <TodoInput 
           onClick={onClickAddButton}
         />
-        <TodoList todos={this.state.todos} onClick={onClickCheckButton} />
+        <TodoList 
+          todos={this.state.todos} 
+          showOnlyCompleted={this.state.showOnlyCompleted} 
+          showOnlyActive={this.state.showOnlyActive} 
+          onClick={onClickCheckButton} 
+        />
+        <Footer 
+          onClickAll={onClickAll} 
+          onClickCompleted={onClickCompleted} 
+          onClickActive={onClickActive}
+        />
       </Wrapper>
     )
   }
