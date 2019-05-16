@@ -24,7 +24,7 @@ const DeleteCompletedTodoButton = styled.img`
     padding: 5px;
     border-radius: 70px;
     box-shadow:0px 0px 3px 2px #C0C0C0;
-    margin-left: 100px;
+    margin-left: 50px;
     margin-top: 5px;
 ` 
 

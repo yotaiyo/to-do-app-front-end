@@ -20,66 +20,75 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false } 
+    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false, setDeadline: false } 
   }
 
-  render(){
-    const onClickAddButton = ( text ) => {
-      const todos = this.state.todos
-      const id = todos.length
-      const completed = false
+  onClickAddButton = ( text, date ) => {
+    const todos = this.state.todos
+    const id = todos.length
+    const completed = false
+    const setDeadline = this.state.setDeadline
+    const deadline = setDeadline ? date : undefined
 
-      todos.push({ id, text, completed })
+    todos.push({ id, text, completed, deadline })
 
-      this.setState({ todos })
-    }
+    this.setState({ todos })
+    this.setState({ setDeadline: false })
+  }
 
-    const onClickCheckButton = ( id ) => {
-      const todos = this.state.todos  
-      const completed = todos[id].completed
-      todos[id] = Object.assign(todos[id], {completed: !completed})
-      
-      this.setState({ todos })
-    }
+  onClickCheckButton = ( id ) => {
+    const todos = this.state.todos  
+    const completed = todos[id].completed
+    todos[id] = Object.assign(todos[id], {completed: !completed})
     
-    const onClickAll = () => {
-      this.setState({ showOnlyCompleted: false, showOnlyActive: false })
-    }
+    this.setState({ todos })
+  }
 
-    const onClickCompleted = () => {
-      this.setState({ showOnlyCompleted: true, showOnlyActive: false })
-    }
+  onClickAll = () => {
+    this.setState({ showOnlyCompleted: false, showOnlyActive: false })
+  }
 
-    const onClickActive = () => {
-      this.setState({ showOnlyCompleted: false, showOnlyActive: true })
-    }
+  onClickCompleted = () => {
+    this.setState({ showOnlyCompleted: true, showOnlyActive: false })
+  }
 
-    const deleteCompleted = () => {
-      let todos = this.state.todos
-      todos = todos.filter(todo => !todo.completed)
-      
-      this.setState({ todos })
-    }
+  onClickActive = () => {
+    this.setState({ showOnlyCompleted: false, showOnlyActive: true })
+  }
+
+  deleteCompleted = () => {
+    let todos = this.state.todos
+    todos = todos.filter(todo => !todo.completed)
+    
+    this.setState({ todos })
+  }
+
+  setDeadline = () => {
+    this.setState({ setDeadline: true })
+  }
+
+  render() {
 
     return (
       <Wrapper className="App">
         <Title>yotaiyo`s To-Do App</Title>
         <TodoInput 
-          onClick={onClickAddButton}
+          onClickAddButton={this.onClickAddButton}
+          setDeadline={this.setDeadline}
         />
         <TodoList 
           todos={this.state.todos} 
           showOnlyCompleted={this.state.showOnlyCompleted} 
           showOnlyActive={this.state.showOnlyActive} 
-          onClick={onClickCheckButton} 
+          onClickCheckButton={this.onClickCheckButton}
         />
         <Footer 
-          onClickAll={onClickAll} 
-          onClickCompleted={onClickCompleted} 
-          onClickActive={onClickActive}
+          onClickAll={this.onClickAll} 
+          onClickCompleted={this.onClickCompleted} 
+          onClickActive={this.onClickActive}
           showOnlyCompleted={this.state.showOnlyCompleted} 
           showOnlyActive={this.state.showOnlyActive} 
-          onClickDeleteButton={deleteCompleted}
+          onClickDeleteButton={this.deleteCompleted}
         />
       </Wrapper>
     )

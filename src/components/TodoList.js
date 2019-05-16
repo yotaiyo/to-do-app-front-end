@@ -3,6 +3,14 @@ import styled from 'styled-components'
 import checkBlackImage from '../images/check-black.png'
 import checkGrayImage from '../images/check-gray.png'
 
+const DateToString = (time) => {
+    const year = time.getFullYear()
+    const month = time.getMonth() + 1
+    const date = time.getDate()
+    return `${year}/${month}/${date}`
+}
+
+
 const Wrapper = styled.div`
     margin: 0 auto;
     margin-top: 10px;
@@ -17,7 +25,6 @@ const TodoCard = styled.div`
     padding-left: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
 `
 
 const TodoBody = styled.div`
@@ -25,6 +32,7 @@ const TodoBody = styled.div`
 `
 
 const ToggleButton = styled.img`
+    margin: 0 0 0 auto;
     width: 15px;
     height: 15px;
     margin-top: 8px;
@@ -33,7 +41,26 @@ const ToggleButton = styled.img`
     border-left: solid 1px #EEEEEE;
 `
 
-export const TodoList = ({ todos, onClick, showOnlyCompleted, showOnlyActive }) => {
+const DeadlineCardWrapper = styled.div`
+    font-size: 15px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: left;
+    border-radius: 5px;
+    box-shadow:0px 0px 3px 0.5px #C0C0C0;
+`
+
+const DeadlineCard = ({ currentTime, deadline }) => {
+    if (currentTime > deadline) {
+        return <DeadlineCardWrapper>締切は終了しました。</DeadlineCardWrapper>
+    } 
+    return <DeadlineCardWrapper>{DateToString(deadline)}まで</DeadlineCardWrapper>
+}
+
+export const TodoList = ({ todos, onClickCheckButton, showOnlyCompleted, showOnlyActive }) => {
     let listNum = 0
     if (todos.length === 0) {
         return <Wrapper>Todoはありません。</Wrapper>
@@ -47,16 +74,18 @@ export const TodoList = ({ todos, onClick, showOnlyCompleted, showOnlyActive }) 
                 const showCompleted = showOnlyCompleted ? completed : true
                 const showActive = showOnlyActive ? !completed : true 
                 const show = showCompleted && showActive
+                const deadline = todo.deadline
                 listNum += show ? 1 : 0 
 
                 return (
                     show ? 
                         <TodoCard key={id} style={{ borderTop: listNum === 1 ? 'solid 1px' : undefined }}>
                             <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{text}</TodoBody>
+                            {deadline ? <DeadlineCard currentTime={new Date()} deadline={deadline}/> : <div />}
                             <ToggleButton 
                                 src={completed ? checkBlackImage : checkGrayImage} 
                                 alt='check'
-                                onClick={() => onClick(id)}
+                                onClick={() => onClickCheckButton(id)}
                             />
                         </TodoCard>
                     : <div key={id}></div>
