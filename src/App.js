@@ -23,11 +23,21 @@ class App extends Component {
     const onClickAddButton = ( text ) => {
       const todos = this.state.todos
       const id = todos.length
+      const completed = false
 
-      todos.push({ id, text })
+      todos.push({ id, text, completed })
 
       this.setState({ todos })
     }
+
+    const onClickCheckButton = ( id ) => {
+      const todos = this.state.todos  
+      const completed = todos[id].completed
+      todos[id] = Object.assign(todos[id], {completed: !completed})
+      
+      this.setState({ todos })
+    }
+    console.log(this.state)
 
     return (
       <Wrapper className="App">
@@ -35,7 +45,7 @@ class App extends Component {
         <TodoInput 
           onClick={onClickAddButton}
         />
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={this.state.todos} onClick={onClickCheckButton} />
       </Wrapper>
     )
   }
