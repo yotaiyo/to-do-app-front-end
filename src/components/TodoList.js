@@ -68,13 +68,10 @@ export const TodoList = ({ todos, onClickCheckButton, showOnlyCompleted, showOnl
     return (
         <Wrapper>  
             {todos.map((todo) => {
-                const id = todo.id
-                const text = todo.text
-                const completed = todo.completed
+                const { id, text, completed, deadline } = todo
                 const showCompleted = showOnlyCompleted ? completed : true
                 const showActive = showOnlyActive ? !completed : true 
                 const show = showCompleted && showActive
-                const deadline = todo.deadline
                 listNum += show ? 1 : 0 
 
                 return (

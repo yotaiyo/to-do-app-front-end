@@ -48,27 +48,42 @@ const DatePickerWrapper = styled.div`
     position: absolute;
 `
 
+const UpdateOrDeleteDeadlineWrapper = styled.div`
+    margin-top: 5px;
+    margin-right: 100px;
+    position: absolute;
+    background-color: white;
+    width: 300px;
+    text-align: center;
+    box-shadow:0px 0px 3px 0.5px #C0C0C0;
+`
+
+const UpdateDeadline = styled.div`
+    border-bottom: solid 1px #EEEEEE;
+`
+
+const DeleteDeadline = styled.div``
+
 export class TodoInput extends Component {
     constructor(props){
         super(props);
     
-        this.state = { showDatePicker: false, date: currentTime } 
+        this.state = { showTimeComponent: false, date: currentTime } 
     }
 
-    onClickTimeIcon = (showDatePicker) => {
-        this.setState({ showDatePicker: !showDatePicker})
+    onClickTimeIcon = (showTimeComponent) => {
+        this.setState({ showTimeComponent: !showTimeComponent})
     }
 
     handleChange(date) {
         this.setState({ date })
-        this.setState({ showDatePicker: false })
+        this.setState({ showTimeComponent: false })
     }
+    
 
     render() {
-        const onClickAddButton = this.props.onClickAddButton
-        const setDeadline = this.props.setDeadline
-        const showDatePicker = this.state.showDatePicker
-        const date = this.state.date
+        const { onClickAddButton, setDeadline, deleteDeadline, isDeadline } = this.props
+        const { showTimeComponent, date } = this.state
         let input
 
         return (
@@ -77,7 +92,7 @@ export class TodoInput extends Component {
                     <TimeIcon 
                         src={timeImage} 
                         alt='time' 
-                        onClick={() => this.onClickTimeIcon(showDatePicker)}    
+                        onClick={() => this.onClickTimeIcon(showTimeComponent)}    
                     />
                     <TextInput 
                         ref={(node) => {input = node}} 
@@ -92,7 +107,7 @@ export class TodoInput extends Component {
                         Add
                     </AddButton>
                 </TodoInputWrapper>
-                { showDatePicker ?
+                { showTimeComponent && !isDeadline ?
                     <DatePickerWrapper>
                         <DatePicker
                             selected={date}
@@ -103,6 +118,28 @@ export class TodoInput extends Component {
                             inline
                         />
                     </DatePickerWrapper>
+                : <div></div>
+                }
+                { showTimeComponent && isDeadline ?
+                    <UpdateOrDeleteDeadlineWrapper>
+                        <UpdateDeadline 
+                            onClick={() => {
+                                this.setState({ showTimeComponent: true })
+                                deleteDeadline()
+                            }}
+                        >
+                            変更する
+                        </UpdateDeadline>
+                        <DeleteDeadline
+                            onClick={() => {
+                                this.setState({ showTimeComponent: false })
+                                deleteDeadline()
+                            }}
+                        >
+                            削除する
+                        </DeleteDeadline>
+                    </UpdateOrDeleteDeadlineWrapper>
+
                 : <div></div>
                 }
             </Wrapper>

@@ -20,19 +20,19 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false, setDeadline: false } 
+    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false, isDeadline: false } 
   }
 
   onClickAddButton = ( text, date ) => {
     const todos = this.state.todos
     const id = todos.length
     const completed = false
-    const setDeadline = this.state.setDeadline
-    const deadline = setDeadline ? date : undefined
+    const isDeadline = this.state.isDeadline
+    const deadline = isDeadline ? date : undefined
     todos.push({ id, text, completed, deadline })
 
     this.setState({ todos })
-    this.setState({ setDeadline: false })
+    this.setState({ isDeadline: false })
   }
 
   onClickCheckButton = ( id ) => {
@@ -67,7 +67,11 @@ class App extends Component {
   }
 
   setDeadline = () => {
-    this.setState({ setDeadline: true })
+    this.setState({ isDeadline: true })
+  }
+
+  deleteDeadline = () => {
+    this.setState({ isDeadline: false })
   }
 
   render() {
@@ -77,6 +81,8 @@ class App extends Component {
         <TodoInput 
           onClickAddButton={this.onClickAddButton}
           setDeadline={this.setDeadline}
+          deleteDeadline={this.deleteDeadline}
+          isDeadline={this.state.isDeadline}
         />
         <TodoList 
           todos={this.state.todos} 
