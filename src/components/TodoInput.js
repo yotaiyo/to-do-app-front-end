@@ -7,6 +7,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const currentTime = new Date()
 
+const Warning = styled.div`
+    margin-bottom: 10px;
+`
+
 const Wrapper = styled.div`
     width: 300px;
     margin: 0 auto;
@@ -68,7 +72,7 @@ export class TodoInput extends Component {
     constructor(props){
         super(props);
     
-        this.state = { showTimeComponent: false, date: currentTime } 
+        this.state = { showTimeComponent: false, date: currentTime, showPleaseInputTodo: false, showCharacterLimit: false } 
     }
 
     onClickTimeIcon = (showTimeComponent) => {
@@ -79,15 +83,22 @@ export class TodoInput extends Component {
         this.setState({ date })
         this.setState({ showTimeComponent: false })
     }
-    
 
     render() {
         const { onClickAddButton, setDeadline, deleteDeadline, isDeadline } = this.props
-        const { showTimeComponent, date } = this.state
+        const { showTimeComponent, date, showPleaseInputTodo, showCharacterLimit } = this.state
         let input
 
         return (
             <Wrapper>
+                { showPleaseInputTodo ? 
+                    <Warning>Todoを入力して下さい</Warning>
+                : <div />
+                }
+                { showCharacterLimit ?
+                    <Warning>20文字以上入力できません</Warning>
+                : <div />
+                }
                 <TodoInputWrapper>
                     <TimeIcon 
                         src={timeImage} 
@@ -95,15 +106,25 @@ export class TodoInput extends Component {
                         onClick={() => this.onClickTimeIcon(showTimeComponent)}    
                     />
                     <TextInput 
-                        ref={(node) => {input = node}} 
+                        ref={(node) => {input = node}}
                     />
 
                     <AddButton onClick={() => {
                         const text = input.value
-                        onClickAddButton(text, date)
-                        this.setState({ date: currentTime })
-                        input.value = ''
-                    }}>
+                        if (text.length === 0) {
+                            this.setState({ showPleaseInputTodo: true })
+                        }
+                        else if (text.length > 20) {
+                            this.setState({ showCharacterLimit: true })
+                        }
+                        else {
+                            onClickAddButton(text, date)
+                            this.setState({ date: currentTime })
+                            this.setState({ showPleaseInputTodo: false })
+                            this.setState({ showCharacterLimit: false })
+                            input.value = ''
+                        }
+                        }}>
                         Add
                     </AddButton>
                 </TodoInputWrapper>
@@ -118,7 +139,7 @@ export class TodoInput extends Component {
                             inline
                         />
                     </DatePickerWrapper>
-                : <div></div>
+                : <div />
                 }
                 { showTimeComponent && isDeadline ?
                     <UpdateOrDeleteDeadlineWrapper>
@@ -140,7 +161,7 @@ export class TodoInput extends Component {
                         </DeleteDeadline>
                     </UpdateOrDeleteDeadlineWrapper>
 
-                : <div></div>
+                : <div />
                 }
             </Wrapper>
         )
