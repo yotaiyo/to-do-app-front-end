@@ -24,10 +24,9 @@ class App extends Component {
   }
 
   onClickAddButton = ( text, date ) => {
-    const todos = this.state.todos
+    const { todos, isDeadline } = this.state
     const id = todos.length
     const completed = false
-    const isDeadline = this.state.isDeadline
     const deadline = isDeadline ? date : undefined
     todos.push({ id, text, completed, deadline })
 
