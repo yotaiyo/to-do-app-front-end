@@ -5,6 +5,34 @@ import { TodoInput } from './components/TodoInput'
 import { TodoList } from './components/TodoList'
 import { Footer } from './components/Footer'
 
+// 締切が近いもの=>締切が遅いもの=>締切が設定されていないもの=>締切が終了したもの=>完了したものの順にソートする
+export const sortTodos = (todos, currentTime) => {
+  const normalTodos = []
+  const beforeDeadlineTodos = []
+  const afterDeadlineTodos = []
+  const completedTodos = []
+
+  todos.forEach(todo => {
+      const { deadline, completed } = todo
+
+      if (!deadline && !completed) {
+          normalTodos.push(todo)
+      } else if (deadline && !completed) {
+          currentTime < deadline ? beforeDeadlineTodos.push(todo) : afterDeadlineTodos.push(todo)
+      } else {
+          completedTodos.push(todo)
+      }
+  })
+
+  beforeDeadlineTodos.sort((a,b) => {
+      return a.deadline > b.deadline ? 1: -1
+  })
+
+  return beforeDeadlineTodos.concat(normalTodos).concat(afterDeadlineTodos).concat(completedTodos)
+}
+
+const currentTime = new Date()
+
 const Wrapper = styled.div`
   text-align: center;
   font-family: 'Vollkorn', serif;
@@ -20,7 +48,7 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false, isDeadline: false } 
+    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false, showSortedTodos: false, isDeadline: false } 
   }
 
   onClickAddButton = ( text, date ) => {
@@ -43,15 +71,27 @@ class App extends Component {
   }
 
   onClickAll = () => {
-    this.setState({ showOnlyCompleted: false, showOnlyActive: false })
+    this.setState({ showOnlyCompleted: false, showOnlyActive: false, showSortedTodos: false })
   }
 
   onClickCompleted = () => {
-    this.setState({ showOnlyCompleted: true, showOnlyActive: false })
+    this.setState({ showOnlyCompleted: true, showOnlyActive: false, showSortedTodos: false })
   }
 
   onClickActive = () => {
-    this.setState({ showOnlyCompleted: false, showOnlyActive: true })
+    this.setState({ showOnlyCompleted: false, showOnlyActive: true, showSortedTodos: false })
+  }
+
+  onClickSort = () => {
+    const todos = this.state.todos
+    const sortedTodos = sortTodos(todos, currentTime)
+
+    sortedTodos.forEach((todo, index) => {      
+      sortedTodos[index].id = index
+    })
+
+    this.setState({ todos: sortedTodos })
+    this.setState({ showOnlyCompleted: false, showOnlyActive: false, showSortedTodos: true })
   }
 
   deleteCompleted = () => {
@@ -86,15 +126,18 @@ class App extends Component {
         <TodoList 
           todos={this.state.todos} 
           showOnlyCompleted={this.state.showOnlyCompleted} 
-          showOnlyActive={this.state.showOnlyActive} 
+          showOnlyActive={this.state.showOnlyActive}
+          showSortedTodos={this.state.showSortedTodos}
           onClickCheckButton={this.onClickCheckButton}
         />
         <Footer 
           onClickAll={this.onClickAll} 
           onClickCompleted={this.onClickCompleted} 
           onClickActive={this.onClickActive}
+          onClickSort={this.onClickSort}
           showOnlyCompleted={this.state.showOnlyCompleted} 
           showOnlyActive={this.state.showOnlyActive} 
+          showSortedTodos={this.state.showSortedTodos}
           onClickDeleteButton={this.deleteCompleted}
         />
       </Wrapper>

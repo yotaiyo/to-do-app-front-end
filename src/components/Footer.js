@@ -28,12 +28,12 @@ const DeleteCompletedTodoButton = styled.img`
     margin-top: 5px;
 ` 
 
-export const Footer = ({ onClickAll, onClickCompleted, onClickActive, showOnlyCompleted, showOnlyActive, onClickDeleteButton }) => {
+export const Footer = ({ onClickAll, onClickCompleted, onClickActive, onClickSort, showOnlyCompleted, showOnlyActive, showSortedTodos, onClickDeleteButton }) => {
     return (
         <Wrapper>
             <Button 
                 onClick={onClickAll} 
-                style={{ backgroundColor: !showOnlyCompleted && !showOnlyActive ? '#EEEEEE' : undefined }}
+                style={{ backgroundColor: !showOnlyCompleted && !showOnlyActive && !showSortedTodos ? '#EEEEEE' : undefined }}
             >
                 All
             </Button>
@@ -44,12 +44,15 @@ export const Footer = ({ onClickAll, onClickCompleted, onClickActive, showOnlyCo
                 Completed
             </Button>
             <Button 
-                onClick={onClickActive} 
-                style={{ backgroundColor: showOnlyActive ? '#EEEEEE' : undefined}}>
+                onClick={onClickActive}
+                style={{ backgroundColor: showOnlyActive ? '#EEEEEE' : undefined}}
+            >
                 Active
             </Button>
             <Button 
-                style={{ borderRight: 'solid 1px' }}>
+                onClick={onClickSort}
+                style={{ backgroundColor: showSortedTodos ? '#EEEEEE' : undefined, borderRight: 'solid 1px'}}
+            >
                 Sort
             </Button>
             <DeleteCompletedTodoButton 
