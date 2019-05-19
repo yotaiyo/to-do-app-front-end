@@ -15,6 +15,9 @@ const Wrapper = styled.div`
     width: 300px;
     margin: 0 auto;
     margin-top: 20px;
+    @media (max-width: 768px) {
+        width: 250px;
+    }
 `
 
 const TodoInputWrapper = styled.div`
@@ -30,12 +33,20 @@ const TimeIcon = styled.img`
     height: 25px;
     margin-top: 2px;
     margin-left: 10px;
+    @media (max-width: 768px) {
+        width: 20px;
+        height: 20px;
+    }
 `
 
 const TextInput = styled.input`
     width: 200px;
     font-size: 15px;
     margin-left: 10px;
+    @media (max-width: 768px) {
+        width: 120px;
+        font-size: 10px;
+    }
 `
 
 const AddButton = styled.div`
@@ -44,12 +55,18 @@ const AddButton = styled.div`
     background-color: #003399;
     color: white;
     padding: 3px;
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
 `
 
 const DatePickerWrapper = styled.div`
     margin-top: 5px;
     margin-right: 100px;
     position: absolute;
+    @media (max-width: 768px) {
+        margin-right: 50px;
+    }
 `
 
 const UpdateOrDeleteDeadlineWrapper = styled.div`
@@ -60,6 +77,10 @@ const UpdateOrDeleteDeadlineWrapper = styled.div`
     width: 300px;
     text-align: center;
     box-shadow:0px 0px 3px 0.5px #C0C0C0;
+    @media (max-width: 768px) {
+        width: 200px;
+        margin-right: 50px;
+    }
 `
 
 const UpdateDeadline = styled.div`
@@ -96,7 +117,7 @@ export class TodoInput extends Component {
                 : <div />
                 }
                 { showCharacterLimit ?
-                    <Warning>20文字以上入力できません</Warning>
+                    <Warning>15文字以上入力できません</Warning>
                 : <div />
                 }
                 <TodoInputWrapper>
@@ -114,7 +135,7 @@ export class TodoInput extends Component {
                         if (text.length === 0) {
                             this.setState({ showPleaseInputTodo: true })
                         }
-                        else if (text.length > 20) {
+                        else if (text.length > 15) {
                             this.setState({ showCharacterLimit: true })
                         }
                         else {

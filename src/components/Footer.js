@@ -16,6 +16,9 @@ const Button = styled.div`
     border-bottom: solid 1px;
     border-left: solid 1px;
     font-size: 20px;
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
 `
 
 const DeleteCompletedTodoButton = styled.img`
@@ -26,6 +29,12 @@ const DeleteCompletedTodoButton = styled.img`
     box-shadow:0px 0px 3px 2px #C0C0C0;
     margin-left: 50px;
     margin-top: 5px;
+    @media (max-width: 768px) {
+        width: 10px;
+        height: 10px;
+        padding: 3px;
+    }
+
 ` 
 
 export const Footer = ({ onClickAll, onClickCompleted, onClickActive, onClickSort, showOnlyCompleted, showOnlyActive, showSortedTodos, onClickDeleteButton }) => {

@@ -16,6 +16,10 @@ const Wrapper = styled.div`
     margin-top: 10px;
     width: 600px;
     font-size: 20px;
+    @media (max-width: 768px) {
+        font-size: 12px;
+        width: 300px;
+    }
 `
 const TodoCard = styled.div`
     border-left: solid 1px;
@@ -29,6 +33,9 @@ const TodoCard = styled.div`
 
 const TodoBody = styled.div`
     font-size: 20px;
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
 `
 
 const ToggleButton = styled.img`
@@ -39,6 +46,11 @@ const ToggleButton = styled.img`
     padding-left: 10px;
     padding-right: 10px;
     border-left: solid 1px #EEEEEE;
+    @media (max-width: 768px) {  
+        width: 10px;
+        height: 10px;
+        margin-top: 4px;
+    }
 `
 
 const DeadlineCardWrapper = styled.div`
@@ -51,6 +63,10 @@ const DeadlineCardWrapper = styled.div`
     text-align: left;
     border-radius: 5px;
     box-shadow:0px 0px 3px 0.5px #C0C0C0;
+    @media (max-width: 768px) {
+        margin-top: 4px;
+        font-size: 10px;
+    }
 `
 
 const DeadlineCard = ({ currentTime, deadline }) => {
