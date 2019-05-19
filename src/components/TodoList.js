@@ -54,7 +54,7 @@ const ToggleButton = styled.img`
 `
 
 const DeadlineCardWrapper = styled.div`
-    font-size: 15px;
+    font-size: 12px;
     margin-top: 7px;
     margin-bottom: 5px;
     margin-left: 10px;
