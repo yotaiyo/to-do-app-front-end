@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 import timeImage from '../images/time.png'
-
 import 'react-datepicker/dist/react-datepicker.css'
 
 const currentTime = new Date()
@@ -89,102 +88,96 @@ const UpdateDeadline = styled.div`
 
 const DeleteDeadline = styled.div``
 
-export class TodoInput extends Component {
-    constructor(props){
-        super(props);
-    
-        this.state = { showTimeComponent: false, date: currentTime, showPleaseInputTodo: false, showCharacterLimit: false } 
+export const TodoInput = ({ onClickAddButton, setDeadline, deleteDeadline, isDeadline }) => {
+    const [showTimeComponent, setShowTimeComponent] = useState(false)
+    const [date, setDate] = useState(currentTime)
+    const [showPleaseInputTodo, setShowPleaseInputTodo] = useState(false)
+    const [showCharacterLimit, setShowCharacterLimit] = useState(false)
+    let input
+
+    const onClickTimeIcon = (showTimeComponent) => {
+        setShowTimeComponent(!showTimeComponent)
     }
 
-    onClickTimeIcon = (showTimeComponent) => {
-        this.setState({ showTimeComponent: !showTimeComponent})
+    const handleChange = (date) => {
+        setDate(date)
+        setShowTimeComponent(false)        
     }
 
-    handleChange(date) {
-        this.setState({ date })
-        this.setState({ showTimeComponent: false })
-    }
+    return (
+        <Wrapper>
+            { showPleaseInputTodo ? 
+                <Warning>Todoを入力して下さい</Warning>
+            : <div />
+            }
+            { showCharacterLimit ?
+                <Warning>15文字以上入力できません</Warning>
+            : <div />
+            }
+            <TodoInputWrapper>
+                <TimeIcon 
+                    src={timeImage} 
+                    alt='time' 
+                    onClick={() => onClickTimeIcon(showTimeComponent)}    
+                />
+                <TextInput 
+                    ref={(node) => {input = node}}
+                />
 
-    render() {
-        const { onClickAddButton, setDeadline, deleteDeadline, isDeadline } = this.props
-        const { showTimeComponent, date, showPleaseInputTodo, showCharacterLimit } = this.state
-        let input
-
-        return (
-            <Wrapper>
-                { showPleaseInputTodo ? 
-                    <Warning>Todoを入力して下さい</Warning>
-                : <div />
-                }
-                { showCharacterLimit ?
-                    <Warning>15文字以上入力できません</Warning>
-                : <div />
-                }
-                <TodoInputWrapper>
-                    <TimeIcon 
-                        src={timeImage} 
-                        alt='time' 
-                        onClick={() => this.onClickTimeIcon(showTimeComponent)}    
+                <AddButton onClick={() => {
+                    const text = input.value
+                    if (text.length === 0) {
+                        setShowPleaseInputTodo(true)
+                    }
+                    else if (text.length > 15) {
+                        setShowCharacterLimit(true)
+                    }
+                    else {
+                        onClickAddButton(text, date)
+                        setDate(currentTime)
+                        setShowPleaseInputTodo(false)
+                        setShowCharacterLimit(false)
+                        input.value = ''
+                    }
+                    }}>
+                    Add
+                </AddButton>
+            </TodoInputWrapper>
+            { showTimeComponent && !isDeadline ?
+                <DatePickerWrapper>
+                    <DatePicker
+                        selected={date}
+                        onChange={(date) => {
+                            handleChange(date)
+                            setDeadline()
+                        }}
+                        inline
                     />
-                    <TextInput 
-                        ref={(node) => {input = node}}
-                    />
+                </DatePickerWrapper>
+            : <div />
+            }
+            { showTimeComponent && isDeadline ?
+                <UpdateOrDeleteDeadlineWrapper>
+                    <UpdateDeadline 
+                        onClick={() => {
+                            setShowTimeComponent(true)
+                            deleteDeadline()
+                        }}
+                    >
+                        変更する
+                    </UpdateDeadline>
+                    <DeleteDeadline
+                        onClick={() => {
+                            setShowTimeComponent(false)                            
+                            deleteDeadline()
+                        }}
+                    >
+                        削除する
+                    </DeleteDeadline>
+                </UpdateOrDeleteDeadlineWrapper>
 
-                    <AddButton onClick={() => {
-                        const text = input.value
-                        if (text.length === 0) {
-                            this.setState({ showPleaseInputTodo: true })
-                        }
-                        else if (text.length > 15) {
-                            this.setState({ showCharacterLimit: true })
-                        }
-                        else {
-                            onClickAddButton(text, date)
-                            this.setState({ date: currentTime })
-                            this.setState({ showPleaseInputTodo: false })
-                            this.setState({ showCharacterLimit: false })
-                            input.value = ''
-                        }
-                        }}>
-                        Add
-                    </AddButton>
-                </TodoInputWrapper>
-                { showTimeComponent && !isDeadline ?
-                    <DatePickerWrapper>
-                        <DatePicker
-                            selected={date}
-                            onChange={(date) => {
-                                this.handleChange(date)
-                                setDeadline()
-                            }}
-                            inline
-                        />
-                    </DatePickerWrapper>
-                : <div />
-                }
-                { showTimeComponent && isDeadline ?
-                    <UpdateOrDeleteDeadlineWrapper>
-                        <UpdateDeadline 
-                            onClick={() => {
-                                this.setState({ showTimeComponent: true })
-                                deleteDeadline()
-                            }}
-                        >
-                            変更する
-                        </UpdateDeadline>
-                        <DeleteDeadline
-                            onClick={() => {
-                                this.setState({ showTimeComponent: false })
-                                deleteDeadline()
-                            }}
-                        >
-                            削除する
-                        </DeleteDeadline>
-                    </UpdateOrDeleteDeadlineWrapper>
-
-                : <div />
-                }
-            </Wrapper>
-        )
-    }
+            : <div />
+            }
+        </Wrapper>
+    )
 }
