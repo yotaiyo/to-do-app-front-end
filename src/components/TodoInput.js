@@ -171,6 +171,7 @@ export const TodoInput = ({ setConcatTodos, setDeadline, deleteDeadline, isDeadl
                         onClick={() => {
                             setShowTimeComponent(true)
                             deleteDeadline()
+                            setDate(currentTime)
                         }}
                     >
                         変更する
@@ -179,6 +180,7 @@ export const TodoInput = ({ setConcatTodos, setDeadline, deleteDeadline, isDeadl
                         onClick={() => {
                             setShowTimeComponent(false)                            
                             deleteDeadline()
+                            setDate(currentTime)
                         }}
                     >
                         削除する
