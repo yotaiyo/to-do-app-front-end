@@ -51,7 +51,6 @@ const App = () =>  {
   const [todos, setTodos] = useState([])
   const [showOnlyCompleted, setShowOnlyCompleted] = useState(false)
   const [showOnlyActive, setShowOnlyActive] = useState(false)
-  const [showSortedTodos, setShowSortedTodos] = useState(false)
   const [isDeadline, setIsDeadline] = useState(false)
 
   const onClickAddButton = ( text, date ) => {
@@ -77,19 +76,16 @@ const App = () =>  {
   const onClickAll = () => {
     setShowOnlyCompleted(false)
     setShowOnlyActive(false)
-    setShowSortedTodos(false)
   }
   
   const onClickCompleted = () => {
     setShowOnlyCompleted(true)
     setShowOnlyActive(false)
-    setShowSortedTodos(false)
   }
   
   const onClickActive = () => {
     setShowOnlyCompleted(false)
     setShowOnlyActive(true)
-    setShowSortedTodos(false)
   }
   
   const onClickSort = () => {
@@ -100,9 +96,6 @@ const App = () =>  {
     })
 
     setTodos(sortedTodos)
-    setShowOnlyCompleted(false)
-    setShowOnlyActive(false)
-    setShowSortedTodos(true)
   }
 
   const deleteCompleted = () => {
@@ -138,7 +131,6 @@ const App = () =>  {
         todos={todos} 
         showOnlyCompleted={showOnlyCompleted} 
         showOnlyActive={showOnlyActive}
-        showSortedTodos={showSortedTodos}
         onClickCheckButton={onClickCheckButton}
       />
       <Footer 
@@ -148,7 +140,6 @@ const App = () =>  {
         onClickSort={onClickSort}
         showOnlyCompleted={showOnlyCompleted} 
         showOnlyActive={showOnlyActive} 
-        showSortedTodos={showSortedTodos}
         onClickDeleteButton={deleteCompleted}
       />
     </Wrapper>

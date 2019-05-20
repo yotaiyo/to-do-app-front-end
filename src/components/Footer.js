@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import deleteImage from '../images/delete.png'
+import sortImage from '../images/sort.png'
 
 const Wrapper = styled.div`
     display: flex;
@@ -9,7 +10,7 @@ const Wrapper = styled.div`
     margin-top: 10px;
 `
 
-const Button = styled.div`
+const SquereButton = styled.div`
     padding-left: 10px;
     padding-right: 10px;
     border-top: solid 1px;
@@ -21,7 +22,7 @@ const Button = styled.div`
     }
 `
 
-const DeleteCompletedTodoButton = styled.img`
+const CircleButton = styled.img`
     width: 18px;
     height: 18px;
     padding: 5px;
@@ -34,37 +35,35 @@ const DeleteCompletedTodoButton = styled.img`
         height: 10px;
         padding: 3px;
     }
-
 ` 
 
-export const Footer = ({ onClickAll, onClickCompleted, onClickActive, onClickSort, showOnlyCompleted, showOnlyActive, showSortedTodos, onClickDeleteButton }) => {
+export const Footer = ({ onClickAll, onClickCompleted, onClickActive, onClickSort, showOnlyCompleted, showOnlyActive, onClickDeleteButton }) => {
     return (
         <Wrapper>
-            <Button 
+            <SquereButton 
                 onClick={onClickAll} 
-                style={{ backgroundColor: !showOnlyCompleted && !showOnlyActive && !showSortedTodos ? '#EEEEEE' : undefined }}
+                style={{ backgroundColor: !showOnlyCompleted && !showOnlyActive ? '#EEEEEE' : undefined }}
             >
                 All
-            </Button>
-            <Button 
+            </SquereButton>
+            <SquereButton 
                 onClick={onClickCompleted} 
                 style={{ backgroundColor: showOnlyCompleted ? '#EEEEEE' : undefined }}
             >
                 Completed
-            </Button>
-            <Button 
+            </SquereButton>
+            <SquereButton 
                 onClick={onClickActive}
-                style={{ backgroundColor: showOnlyActive ? '#EEEEEE' : undefined}}
+                style={{ backgroundColor: showOnlyActive ? '#EEEEEE' : undefined, borderRight: 'solid 1px' }}
             >
                 Active
-            </Button>
-            <Button 
+            </SquereButton>
+            <CircleButton
+                src={sortImage}
+                alt='sort'
                 onClick={onClickSort}
-                style={{ backgroundColor: showSortedTodos ? '#EEEEEE' : undefined, borderRight: 'solid 1px'}}
-            >
-                Sort
-            </Button>
-            <DeleteCompletedTodoButton 
+            />
+            <CircleButton 
                 src={deleteImage} 
                 alt='delete' 
                 onClick={onClickDeleteButton}
