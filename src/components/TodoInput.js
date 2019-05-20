@@ -42,6 +42,8 @@ const TextInput = styled.input`
     width: 200px;
     font-size: 15px;
     margin-left: 10px;
+    outline: 0;
+    font-family: 'Vollkorn', serif;
     @media (max-width: 768px) {
         width: 120px;
         font-size: 10px;
