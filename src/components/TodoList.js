@@ -101,7 +101,7 @@ export const TodoList = ({ todos, onClickCheckButton, showOnlyCompleted, showOnl
                                 onClick={() => onClickCheckButton(id)}
                             />
                         </TodoCard>
-                    : <div key={id}></div>
+                    : <div key={id} />
             )})} 
         </Wrapper>
     )
