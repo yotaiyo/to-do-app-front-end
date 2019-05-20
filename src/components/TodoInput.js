@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 import timeImage from '../images/time.png'
-
 import 'react-datepicker/dist/react-datepicker.css'
 
 const currentTime = new Date()
@@ -92,7 +91,7 @@ const DeleteDeadline = styled.div``
 export class TodoInput extends Component {
     constructor(props){
         super(props);
-    
+
         this.state = { showTimeComponent: false, date: currentTime, showPleaseInputTodo: false, showCharacterLimit: false } 
     }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import './App.css'
 import { TodoInput } from './components/TodoInput'
@@ -47,105 +47,112 @@ const Title = styled.div`
   }
 `
 
-class App extends Component {
-  constructor(props){
-    super(props);
+const App = () =>  {
+  const [todos, setTodos] = useState([])
+  const [showOnlyCompleted, setShowOnlyCompleted] = useState(false)
+  const [showOnlyActive, setShowOnlyActive] = useState(false)
+  const [showSortedTodos, setShowSortedTodos] = useState(false)
+  const [isDeadline, setIsDeadline] = useState(false)
 
-    this.state = { todos: [], showOnlyCompleted: false, showOnlyActive: false, showSortedTodos: false, isDeadline: false } 
-  }
-
-  onClickAddButton = ( text, date ) => {
-    const { todos, isDeadline } = this.state
+  const onClickAddButton = ( text, date ) => {
     const id = todos.length
     const completed = false
     const deadline = isDeadline ? date : undefined
-    todos.push({ id, text, completed, deadline })
 
-    this.setState({ todos })
-    this.setState({ isDeadline: false })
+    const concatTodos = todos.concat([{ id, text, completed, deadline }])
+
+    setTodos(concatTodos)
+    setIsDeadline(false)
   }
 
-  onClickCheckButton = ( id ) => {
-    const todos = this.state.todos
-    const completed = todos[id].completed
-    todos[id] = Object.assign(todos[id], {completed: !completed})
-    
-    this.setState({ todos })
+  const onClickCheckButton = ( onClickId ) => {
+    const newTodos = []
+    todos.forEach((todo, index) => {
+      const { id, text, completed, deadline } = todo
+      index === onClickId ? newTodos.push({ id, text, completed: !completed, deadline: deadline}) : newTodos.push({ id, text, completed, deadline: deadline})
+    })
+    setTodos(newTodos)
   }
 
-  onClickAll = () => {
-    this.setState({ showOnlyCompleted: false, showOnlyActive: false, showSortedTodos: false })
+  const onClickAll = () => {
+    setShowOnlyCompleted(false)
+    setShowOnlyActive(false)
+    setShowSortedTodos(false)
   }
-
-  onClickCompleted = () => {
-    this.setState({ showOnlyCompleted: true, showOnlyActive: false, showSortedTodos: false })
+  
+  const onClickCompleted = () => {
+    setShowOnlyCompleted(true)
+    setShowOnlyActive(false)
+    setShowSortedTodos(false)
   }
-
-  onClickActive = () => {
-    this.setState({ showOnlyCompleted: false, showOnlyActive: true, showSortedTodos: false })
+  
+  const onClickActive = () => {
+    setShowOnlyCompleted(false)
+    setShowOnlyActive(true)
+    setShowSortedTodos(false)
   }
-
-  onClickSort = () => {
-    const todos = this.state.todos
+  
+  const onClickSort = () => {
     const sortedTodos = sortTodos(todos, currentTime)
 
     sortedTodos.forEach((todo, index) => {      
       sortedTodos[index].id = index
     })
 
-    this.setState({ todos: sortedTodos })
-    this.setState({ showOnlyCompleted: false, showOnlyActive: false, showSortedTodos: true })
+    setTodos(sortedTodos)
+    setShowOnlyCompleted(false)
+    setShowOnlyActive(false)
+    setShowSortedTodos(true)
   }
 
-  deleteCompleted = () => {
-    let todos = this.state.todos
-    todos = todos.filter(todo => !todo.completed)
+  const deleteCompleted = () => {
+    const filterTodos = todos.filter(todo => !todo.completed)
 
-    todos.forEach((todo, index) => {      
-      todos[index].id = index
+    const newTodos = []
+    filterTodos.forEach((todo, index) => { 
+      const { text, completed, deadline } = todo
+      newTodos.push({id: index, text, completed, deadline})
     })
     
-    this.setState({ todos })
+    setTodos(newTodos)
   }
 
-  setDeadline = () => {
-    this.setState({ isDeadline: true })
+  const setDeadline = () => {
+    setIsDeadline(true)
   }
 
-  deleteDeadline = () => {
-    this.setState({ isDeadline: false })
+  const deleteDeadline = () => {
+    setIsDeadline(false)
   }
 
-  render() {
-    return (
-      <Wrapper className="App">
-        <Title>yotaiyo`s To-Do App</Title>
-        <TodoInput 
-          onClickAddButton={this.onClickAddButton}
-          setDeadline={this.setDeadline}
-          deleteDeadline={this.deleteDeadline}
-          isDeadline={this.state.isDeadline}
-        />
-        <TodoList 
-          todos={this.state.todos} 
-          showOnlyCompleted={this.state.showOnlyCompleted} 
-          showOnlyActive={this.state.showOnlyActive}
-          showSortedTodos={this.state.showSortedTodos}
-          onClickCheckButton={this.onClickCheckButton}
-        />
-        <Footer 
-          onClickAll={this.onClickAll} 
-          onClickCompleted={this.onClickCompleted} 
-          onClickActive={this.onClickActive}
-          onClickSort={this.onClickSort}
-          showOnlyCompleted={this.state.showOnlyCompleted} 
-          showOnlyActive={this.state.showOnlyActive} 
-          showSortedTodos={this.state.showSortedTodos}
-          onClickDeleteButton={this.deleteCompleted}
-        />
-      </Wrapper>
-    )
-  }
+  return (
+    <Wrapper className="App">
+      <Title>yotaiyo`s To-Do App</Title>
+      <TodoInput 
+        onClickAddButton={onClickAddButton}
+        setDeadline={setDeadline}
+        deleteDeadline={deleteDeadline}
+        isDeadline={isDeadline}
+      />
+      <TodoList 
+        todos={todos} 
+        showOnlyCompleted={showOnlyCompleted} 
+        showOnlyActive={showOnlyActive}
+        showSortedTodos={showSortedTodos}
+        onClickCheckButton={onClickCheckButton}
+      />
+      <Footer 
+        onClickAll={onClickAll} 
+        onClickCompleted={onClickCompleted} 
+        onClickActive={onClickActive}
+        onClickSort={onClickSort}
+        showOnlyCompleted={showOnlyCompleted} 
+        showOnlyActive={showOnlyActive} 
+        showSortedTodos={showSortedTodos}
+        onClickDeleteButton={deleteCompleted}
+      />
+    </Wrapper>
+  )
 }
 
 export default App
