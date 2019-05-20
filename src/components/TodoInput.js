@@ -90,7 +90,7 @@ const UpdateDeadline = styled.div`
 
 const DeleteDeadline = styled.div``
 
-export const TodoInput = ({ onClickAddButton, setDeadline, deleteDeadline, isDeadline }) => {
+export const TodoInput = ({ setConcatTodos, setDeadline, deleteDeadline, isDeadline }) => {
     const [showTimeComponent, setShowTimeComponent] = useState(false)
     const [date, setDate] = useState(currentTime)
     const [showPleaseInputTodo, setShowPleaseInputTodo] = useState(false)
@@ -104,6 +104,24 @@ export const TodoInput = ({ onClickAddButton, setDeadline, deleteDeadline, isDea
     const handleChange = (date) => {
         setDate(date)
         setShowTimeComponent(false)        
+    }
+
+    const onClickAddButton = (text) => {
+        if (text.length === 0) {
+            setShowPleaseInputTodo(true)
+            setShowCharacterLimit(false)                        
+        }
+        else if (text.length >= 15) {
+            setShowPleaseInputTodo(false)
+            setShowCharacterLimit(true)
+        }
+        else {
+            setConcatTodos(text, date)
+            setDate(currentTime)
+            setShowPleaseInputTodo(false)
+            setShowCharacterLimit(false)
+            input.value = ''
+        }
     }
 
     return (
@@ -128,21 +146,7 @@ export const TodoInput = ({ onClickAddButton, setDeadline, deleteDeadline, isDea
 
                 <AddButton onClick={() => {
                     const text = input.value
-                    if (text.length === 0) {
-                        setShowPleaseInputTodo(true)
-                        setShowCharacterLimit(false)                        
-                    }
-                    else if (text.length >= 15) {
-                        setShowPleaseInputTodo(false)
-                        setShowCharacterLimit(true)
-                    }
-                    else {
-                        onClickAddButton(text, date)
-                        setDate(currentTime)
-                        setShowPleaseInputTodo(false)
-                        setShowCharacterLimit(false)
-                        input.value = ''
-                    }
+                    onClickAddButton(text)
                     }}
                 >
                     Add

@@ -53,7 +53,7 @@ const App = () =>  {
   const [showOnlyActive, setShowOnlyActive] = useState(false)
   const [isDeadline, setIsDeadline] = useState(false)
 
-  const onClickAddButton = ( text, date ) => {
+  const setConcatTodos = ( text, date ) => {
     const id = todos.length
     const completed = false
     const deadline = isDeadline ? date : undefined
@@ -122,7 +122,7 @@ const App = () =>  {
     <Wrapper className="App">
       <Title>yotaiyo`s To-Do App</Title>
       <TodoInput 
-        onClickAddButton={onClickAddButton}
+        setConcatTodos={setConcatTodos}
         setDeadline={setDeadline}
         deleteDeadline={deleteDeadline}
         isDeadline={isDeadline}
