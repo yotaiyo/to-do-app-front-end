@@ -131,7 +131,7 @@ export const TodoInput = ({ onClickAddButton, setDeadline, deleteDeadline, isDea
                     if (text.length === 0) {
                         setShowPleaseInputTodo(true)
                     }
-                    else if (text.length > 15) {
+                    else if (text.length >= 15) {
                         setShowCharacterLimit(true)
                     }
                     else {
