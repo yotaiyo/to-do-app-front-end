@@ -130,8 +130,10 @@ export const TodoInput = ({ onClickAddButton, setDeadline, deleteDeadline, isDea
                     const text = input.value
                     if (text.length === 0) {
                         setShowPleaseInputTodo(true)
+                        setShowCharacterLimit(false)                        
                     }
                     else if (text.length >= 15) {
+                        setShowPleaseInputTodo(false)
                         setShowCharacterLimit(true)
                     }
                     else {
@@ -141,7 +143,8 @@ export const TodoInput = ({ onClickAddButton, setDeadline, deleteDeadline, isDea
                         setShowCharacterLimit(false)
                         input.value = ''
                     }
-                    }}>
+                    }}
+                >
                     Add
                 </AddButton>
             </TodoInputWrapper>
