@@ -1,32 +1,21 @@
-# To-Do App
+# yotaiyo-to-do-app-react-hooks
 
-## チェック項目
-- [x] 最新のバージョンのReactを使用
-- [x] 最新のGoogle Chromeで動く 
-- [x] タスクが一覧できる
-- [x] タスクが追加できる
-- [x] タスクが完了できる
-- [x] タスクを全て/未完了/完了でフィルタリングできる
-- [x] 嬉しいと思う機能を一つ以上追加
-- [x] React Hooksの使用
-- [x] CSSを使ってUIをスタイリングする
+## OverView
+https://github.com/yotaiyo/yotaiyo-to-do-app-react-rails のフロントエンド部分のプロトタイプです。  
+ToDoの追加、完了、フィルタリング、募集期限の設定、ソートといった機能が使用できます。  
+最近注目を浴びているReact Hooksを用い、Class Componentを使わないような実装にしています。
 
-## セットアップ方法
+## 使用した技術
+- JavaScript
+- React
+- React Hooks
+- Firebase
+
+## Setup
 ```
 git clone git@github.com:yotaiyo/yotaiyo-to-do-app-react.git
 cd yotaiyo-to-do-app-react  
 yarn  
+yarn test
 yarn start
 ```
-
-## タスク5およびタスク6の説明
-- 追加機能1: 完了したタスクを削除できる機能  
-完了したタスクが残ったままになってしまうのは、邪魔だと思ったから。
-- 追加機能2: 各タスクに締切を設定できる機能  
-完了していないタスクの締切や、締切が終了したものが確認できると、便利だと思ったから。  
-以下に示すようなソート機能や、締切が迫ったものを通知する機能など、発展性が高いと思ったから。
-- 追加機能3: ソート機能  
-締切が近いもの、つまり、優先度が高い順にソートできると便利だと思ったから。  
-このアプリでは、  
-`締切が近いもの=>締切が遠いもの=>締切が設定されていないもの=>締切が終了したもの=>完了したもの`  
-の順にソートする。
