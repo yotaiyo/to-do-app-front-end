@@ -1,9 +1,9 @@
 # yotaiyo-to-do-app-react-hooks
 
 ## OverView
-https://github.com/yotaiyo/yotaiyo-to-do-app-react-rails のフロントエンド部分のプロトタイプです。  
-ToDoの追加、完了、フィルタリング、募集期限の設定、ソートといった機能が使用できます。  
-最近注目を浴びているReact Hooksを用い、Class Componentを使わないような実装にしています。
+https://github.com/yotaiyo/to-do-app のフロントエンド部分のプロトタイプです。  
+タスクの追加、完了、フィルタリング、期限の設定、ソートといった機能が使用できます。  
+React Hooksを用い、Class Componentを使わないような実装にしています。
 
 ## 使用した技術
 - JavaScript
@@ -13,8 +13,8 @@ ToDoの追加、完了、フィルタリング、募集期限の設定、ソー�
 
 ## Setup
 ```
-git clone git@github.com:yotaiyo/yotaiyo-to-do-app-react.git
-cd yotaiyo-to-do-app-react  
+git clone git@github.com:yotaiyo/to-do-app-front-end.git
+cd to-do-app-front-end
 yarn  
 yarn test
 yarn start
