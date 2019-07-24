@@ -1,4 +1,4 @@
-# yotaiyo-to-do-app-react-hooks
+# to-do-app-front-end
 
 ## OverView
 https://github.com/yotaiyo/to-do-app のフロントエンド部分のプロトタイプです。  
