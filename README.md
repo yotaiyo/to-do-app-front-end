@@ -1,4 +1,4 @@
-# to-do-app-front-end
+# to-do-app-hooks
 
 ## OverView
 https://github.com/yotaiyo/to-do-app のフロントエンド部分のプロトタイプです。  
@@ -13,8 +13,8 @@ React Hooksを用い、Class Componentを使わないような実装にしてい
 
 ## Setup
 ```
-git clone git@github.com:yotaiyo/to-do-app-front-end.git
-cd to-do-app-front-end
+git clone git@github.com:yotaiyo/to-do-app-hooks.git
+cd to-do-app-hooks
 yarn  
 yarn test
 yarn start
